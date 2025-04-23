@@ -63,7 +63,7 @@ Aqui por exemplo esta a função "iniciar_competicao" ela é a responsável pelo
 - Gerenciar o menu da Batalha e suas funções auxiliares
 - Gerenciar todas as listas presentes no código para a manutenção dos itens e garantia que o andamento do código ficara fluido ate a etapa final.
 
-## Sortear startups
+## 2.1 Sortear startups
 
 A função "sorteio_de_batalha", é chamada em todo inicio de uma nova rodada, para esta função ela sempre recebe uma (lista simples) e retorna uma (lista de listas) ou uma sub-list.
 O sorteio inicia com uma verificação, se o numero de objetos na lista é par ou impar. Por padrão a primeira verificação - (Primeira Rodada) - sempre será par, por causa do cadastro que obriga a sempre cadastrar pares. 
@@ -73,7 +73,7 @@ Caso ocorra de terem números impares na lista:
 
 Neste caso o programa seleciona de maneira aleatória um objeto para "pular de fase", restando um numero par de objetos para o sorteio e ao final o vencedor disputa com a Startup que havia pulado de fase.
 
-## Gerenciar Batalha
+## 2.2 Gerenciar Batalha
 
 O Gerenciador de Batalha em si é o coração do projeto, ele traz a parte gráfica de menus para auxiliar o usuário na manutenção e elaboração das batalhas.
 A principal função do "gerenciador_de_batalha" é exibir o menu e controlar os inputs do sistema quando o torneio estiver em andamento. Nele tu pode acessar:
@@ -86,7 +86,7 @@ Além de gerenciar outras funções como:
 - "batalha" que é um sub menu dos Eventos
 - "verificar_vencedor" que verifica qual é a startup vencedora da quela batalha.
 
-## Batalha
+## 2.2.1 Batalha
 
 A função Batalha gerencia um sub menu que comanda as chamadas de função interna da class Startup, utilizando de menus e dicionários para selecionar a startup e o evento/função, a qual ela ira chamar.
 
@@ -95,13 +95,13 @@ Ex:
 "2: Startups.produto_com_bugs"
 "3: Startups.boa_tração_de_usuários"
 
-## Verificação de vencedor
+## 2.2.2 Verificação de vencedor
 
 A função "verificar_vencedor" é bem simples, ela compara com uma sequencia de "if/else" para ver qual das duas Startups na batalha ficou com a maior pontuação no final, o vencedor ganha "30 pontos".
 
 Se ao final da seleção de eventos os dois objetos estiverem com a mesma pontuação será realizada o "Shark fight" onde será escolhida aleatoriamente uma das duas para ser a vencedora e ela ganhara "32 pontos".
 
-## Funções Auxiliares/Feature Extra
+## 2.3 Funções Auxiliares/Feature Extra
 
 As Features Extras são duas funções para melhorar a dinâmica do Torneio.
 

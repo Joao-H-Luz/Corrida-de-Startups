@@ -1,6 +1,6 @@
 # Torneio de Startups
 
-Bem-vindo ao **Torneio de Startups**, um sistema de Torneios entre Startups desenvolvido em Python. Aqui, cada startup é avaliada por seu desempenho em eventos positivos ou negativos, competindo em fases eliminatórias até restar apenas uma campeã.
+Bem-vindo ao **Torneio de Startups**, um sistema de Torneios entre Startups desenvolvido em Python. Aqui, cada startup é avaliada por seu desempenho simulado em Eventos, competindo em fases eliminatórias até restar apenas uma campeã.
 
 ---
 
@@ -31,11 +31,15 @@ pip install -r requirements.txt
 ```
 
 ## Clonar o repositório
+```bash
 git clone https://github.com/teu_usuario/nome-do-repositorio.git
+```
 cd nome-do-repositorio
 
 ## Executar o programa
+```bash
 python app.py
+```
 
 ---
 
@@ -48,7 +52,7 @@ O cadastro funciona em um formato simples, dividido em duas partes.
 A primeira parte é uma verificação de quantas Startups serão criadas de acordo com o padrao a seguir: 4 a 8 sendo par - (4, 6 ou 8) - é realizado um loping e uma verificação de numero(str) e depois convertido para (int) essa variavel é "n_competidores".
 
 A segunda parte é o Cadastro em si onde um "for" ira rodar com a quantidade certa de startups a serem criadas, elas terão as seguntes entradas: Nome(str), Ano de Fundação(int) e Slogan(str) - tera tambem a pontuação, mas ela é iniciada com 70 por padrão.
-Ao final de cada laço, é criado um objeto da "class Startups" e adicionado a uma lista global de todas as startups criadas - "startups = []" -.
+Ao final de cada laço, é criado um objeto da "class Startups" e adicionado a uma lista global de todas as startups criadas - "startups = [ ]" -.
 
 # 2. Batalhas
 

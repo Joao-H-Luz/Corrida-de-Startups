@@ -11,7 +11,7 @@ class Startups:
     """
     round_atual = 0
 
-    def __init__(self, nome:str, fundacao:int, slogan:str, point:int):
+    def __init__(self, nome: str, fundacao: int, slogan: str, point: int):
         self.nome = nome
         self.fundacao = fundacao
         self.slogan = slogan

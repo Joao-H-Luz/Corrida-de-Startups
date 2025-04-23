@@ -3,7 +3,6 @@ import random
 import menus_dic
 import os
 import time
-from openpyxl import load_workbook
 startups = []
 fase_batalha = []
 vencedores = []
@@ -12,11 +11,20 @@ rodada = 0
 
 def iniciar_competicao(startups: list):
     """
-    - Inicia a competição entre as startups.
-    - Faz as rodadas de batalha até sobrar só uma vencedora.
-    - Mostra o relatório final no fim da competição.
+    Inicia a competição entre startups, organizando as rodadas de batalha até restar apenas uma vencedora.
+
     Parâmetros:
-    - startups: lista com todas as startups participantes.
+    startups (list): Lista contendo os objetos das startups participantes da competição.
+
+    Comportamento:
+    - Zera as variáveis globais relacionadas à fase de batalha, vencedores e número da rodada.
+    - Executa rodadas de batalhas sorteando confrontos entre as startups.
+    - Ao final de cada rodada, avança com os vencedores para a próxima.
+    - Quando restar apenas uma startup, exibe o relatório final da competição.
+
+    Observações:
+    - Utiliza variáveis globais: `fase_batalha`, `vencedores` e `rodada`.
+    - Funções auxiliares utilizadas: `limpar_terminal()`, `sorteio_de_batalha()`, `gerenciador_de_batalha()`, `relatorio_final()`.
     """
     global fase_batalha, vencedores, rodada
     rodada = 0
@@ -41,11 +49,28 @@ def iniciar_competicao(startups: list):
 
 def gerenciador_de_batalha(lista_geral: list):
     """
-    - Gerencia as batalhas da rodada.
-    - Mostra as batalhas disponíveis e deixa o usuário escolher qual quer iniciar.
-    - Também dá opção de ver o placar, abrir configurações ou sair do gerenciador.
+    Gerencia as batalhas de uma rodada, permitindo ao usuário escolher quais confrontos iniciar.
+
     Parâmetros:
-    - lista_geral: lista com pares de startups que vão batalhar.
+    lista_geral (list): Lista de batalhas da rodada atual, onde cada batalha é uma tupla com duas startups.
+
+    Comportamento:
+    - Exibe as batalhas disponíveis.
+    - Permite ao usuário iniciar uma batalha específica, visualizar o placar, ou acessar as configurações.
+    - Ao escolher uma batalha, ela é removida da lista e o vencedor é adicionado à lista global `vencedores`.
+    - Oferece opção para sair do gerenciador.
+
+    Entradas válidas:
+    - Número da batalha a ser iniciada (índice da lista).
+    # Features:
+    - '99' para mostrar o placar atual.
+    - '00' para acessar o menu de configurações.
+    - 's' para sair do gerenciador.
+
+    Observações:
+    - Utiliza variáveis globais: `fase_batalha`, `vencedores`.
+    - Depende das funções auxiliares: `limpar_terminal()`, `placar_atual()`, `config()`, `batalha()`.
+    - A variável `startups` precisa estar disponível no escopo global para ser usada nas configurações.
     """
     global vencedores, fase_batalha
     while lista_geral:
@@ -84,12 +109,25 @@ def gerenciador_de_batalha(lista_geral: list):
 
 def batalha(sub_list: list):
     """
-    - Roda uma batalha entre duas startups.
-    - Permite aplicar eventos em cada uma e decide quem venceu.
+    Executa uma batalha entre duas startups, permitindo ao usuário aplicar eventos em cada uma.
+
     Parâmetros:
-    - sub_list: lista com duas startups que vão batalhar.
+    sub_list (list): Lista com duas startups que irão batalhar, na forma [startup1, startup2].
+
+    Comportamento:
+    - Para cada startup, permite a aplicação de eventos disponíveis (sem repetição).
+    - Eventos são escolhidos via input do usuário a partir de um menu.
+    - Cada evento é aplicado diretamente na startup, e seu ID é registrado.
+    - Após os eventos serem aplicados em ambas as startups, é determinada a vencedora.
+    - A tela é limpa ao final da batalha.
+
     Retorna:
-    - A startup vencedora.
+    Startup: Objeto da startup vencedora da batalha.
+
+    Observações:
+    - Utiliza funções auxiliares: `menus_dic.menu_eventos()`, `verificar_vencedor()`, `limpar_terminal()`.
+    - Os eventos aplicados são armazenados na lista `eventos_aplicados` da startup.
+    - O dicionário `menus_dic.eventos` contém os eventos disponíveis (ID como chave e função como valor).
     """
     startup1, startup2 = sub_list
     print(f"\n--- Batalha entre {startup1.nome} e {startup2.nome} ---")
@@ -125,23 +163,35 @@ def batalha(sub_list: list):
 
 def limpar_terminal():
     """
-    Limpa o terminal, funciona em Windows, Linux e Mac.
+    Limpa o terminal de acordo com o sistema operacional.
+
+    Comportamento:
+    - Se o sistema for Windows (`os.name == 'nt'`), executa o comando `cls`.
+    - Para outros sistemas (Linux/MacOS), executa o comando `clear`.
     """
     sistema = os.name
-    if sistema == 'nt':  # Para Windows
-        os.system('cls')
-    else:  # Para Linux/MacOS
-        os.system('clear')
-
-
-def delay():
-    """Função que faz uma pausa de 1 a 2 segundos para apresentar os menus de forma mais fluída."""
-    time.sleep(random.uniform(1, 2))  # Delay aleatório entre 1 e 2 segundos
+    if sistema == 'nt': 
+        os.system('cls')  # Para Windows
+    else:  
+        os.system('clear')  # Para Linux/MacOS
 
 
 def sorteio_de_batalha(lista_geral: list):
     """
-    Sorteia as batalhas e coloca uma startup automaticamente na próxima fase se o número de participantes for ímpar.
+    Realiza o sorteio das batalhas da rodada, formando pares de startups para competir.
+
+    Parâmetros:
+    lista_geral (list): Lista de startups participantes da rodada atual.
+
+    Comportamento:
+    - Limpa a lista global `fase_batalha` e cria uma cópia da lista original.
+    - Se o número de startups for ímpar, uma é escolhida aleatoriamente para avançar direto à próxima fase.
+    - Embaralha as startups restantes e forma pares de batalhas, que são adicionadas à lista `fase_batalha`.
+
+    Observações:
+    - Utiliza variáveis globais: `fase_batalha`, `vencedores`.
+    - Usa a função `random.shuffle()` para garantir aleatoriedade nos confrontos.
+    - A startup que avança automaticamente (em caso de número ímpar) é informada ao usuário via `print`.
     """
     global vencedores, fase_batalha
     fase_batalha.clear()
@@ -163,8 +213,23 @@ def sorteio_de_batalha(lista_geral: list):
 
 def verificar_vencedor(startup1, startup2):
     """
-    Compara as pontuações das startups e retorna a vencedora.
-    Em caso de empate, aplica o Shark fight.
+    Compara os pontos das duas startups e define a vencedora da batalha.
+
+    Parâmetros:
+    startup1: Objeto da primeira startup.
+    startup2: Objeto da segunda startup.
+
+    Comportamento:
+    - A startup com maior pontuação vence e recebe +30 pontos.
+    - Em caso de empate, ocorre uma "shark fight" (sorteio aleatório) para definir o vencedor, que recebe +32 pontos.
+    - A startup vencedora é retornada e sua pontuação é atualizada.
+
+    Retorna:
+    Startup: Objeto da startup vencedora.
+
+    Observações:
+    - A função altera o atributo `point` diretamente nas startups.
+    - Utiliza o módulo `random` para desempate em caso de pontuação igual.
     """
     if startup1.point > startup2.point:
         startup1.point += 30
@@ -183,7 +248,24 @@ def verificar_vencedor(startup1, startup2):
 
 def relatorio_final(lista_startups):
     """
-    Gera o relatório final, mostrando o ranking das startups e seus eventos aplicados.
+    Gera e exibe o relatório final da competição entre startups.
+
+    Parâmetros:
+    lista_startups (list): Lista com todas as startups que participaram da competição.
+
+    Comportamento:
+    - Verifica se há dados disponíveis para o relatório.
+    - Conta quantas vezes cada evento foi aplicado em cada startup.
+    - Cria um DataFrame com nome, pontuação final, eventos aplicados e estatísticas de cada evento.
+    - Ordena o ranking pela pontuação final (decrescente) e exibe na tela.
+    - Exibe o nome e o slogan da startup campeã.
+
+    Observações:
+    - Atributos esperados em cada startup:
+        - `nome`: nome da startup.
+        - `point`: pontuação final da startup.
+        - `eventos_aplicados`: lista com os IDs dos eventos aplicados.
+        - `slogan`: slogan da startup (usado apenas para a campeã).
     """
     if not lista_startups:
         print("Nenhum dado disponível para gerar o relatório final.")
@@ -232,14 +314,25 @@ def relatorio_final(lista_startups):
         print(f"Slogan: {campeao_obj.slogan}")
     else:
         print("Slogan: [Slogan não encontrado]")
-    delay()
+    
 
 
 def placar_atual(fase_batalha: list, vencedores: list):
     """
-    FEATURE EXTRA - 1
-    Exibe o placar atual das startups após as batalhas.
-    Combina as startups da fase atual com os vencedores e exibe uma tabela.
+    Exibe o placar atual das startups que ainda estão na competição.
+
+    Parâmetros:
+    fase_batalha (list): Lista de batalhas da fase atual, onde cada item é uma lista/tupla com duas startups.
+    vencedores (list): Lista de startups que já venceram suas batalhas nesta rodada.
+
+    Comportamento:
+    - Junta todas as startups ainda ativas na rodada (as que estão em batalha e as que já venceram).
+    - Cria um DataFrame com o nome e a pontuação atual de cada uma.
+    - Exibe esse placar na tela em formato de tabela.
+
+    Observações:
+    - A função é apenas informativa, não altera o estado do jogo.
+    - Utiliza o módulo `pandas` para montar e imprimir a tabela.
     """
     startups_ativas = []
     for par in fase_batalha:
@@ -255,16 +348,22 @@ def placar_atual(fase_batalha: list, vencedores: list):
 
 def config(lista_geral: list):
     """
-    FEATURE EXTRA - 2
-    - Permite modificar os atributos de uma startup selecionada.
+    Exibe o menu de configurações e permite modificar atributos de uma startup.
+
     Parâmetros:
     lista_geral (list): Lista de startups disponíveis para configuração.
 
-    O usuário pode alterar:
-    - Nome
-    - Pontuação
-    - Ano de fundação
-    - Slogan
+    Comportamento:
+    - Exibe uma lista de startups e permite ao usuário escolher qual deseja configurar.
+    - Apresenta um menu de opções para modificar atributos da startup selecionada:
+        1. Nome
+        2. Pontuação
+        3. Ano de fundação
+        4. Slogan
+    - O usuário pode alterar um ou mais desses atributos, e as mudanças são aplicadas diretamente na startup.
+
+    Observações:
+    - Se o usuário escolher uma opção inválida ou inserir um valor incorreto, a função exibirá uma mensagem de erro e retornará ao menu.
     """
     limpar_terminal()
     print("--- Menu de Configurações ---")
@@ -315,4 +414,3 @@ def config(lista_geral: list):
 
     except ValueError:
         print("Entrada inválida. Digite um número válido.")
-    delay()

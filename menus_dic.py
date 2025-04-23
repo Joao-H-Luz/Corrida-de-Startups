@@ -1,6 +1,8 @@
 from Startups import Startups
 
 # Menus do Projeto
+
+
 def menu_quantidade_startups():
     return """
 ==== Menu de Cadastro ====

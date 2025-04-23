@@ -1,0 +1,2 @@
+# Biblioteca usada Pandas.
+pip install pandas==2.2.3

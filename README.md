@@ -18,6 +18,29 @@ Bem-vindo ao **Torneio de Startups**, um sistema de Torneios entre Startups dese
 - Placar em tempo real da competição.
 
 ---
+## Clonar o repositório
+```bash
+git clone https://github.com/Joao-H-Luz/Corrida-de-Startups.git
+```
+
+## Criar Ambiente Virtual
+- Windows
+```bash
+Python -m venv venv
+```
+Ativar o ambiente no CMD:
+```bash
+venv\Scripts\activate
+```
+
+- Linux/Mac
+```bash
+python3 -m venv venv
+```
+Ativar o ambiente Linux/Mac
+```bash
+source venv/bin/activate
+```
 
 ## Requisitos
 
@@ -29,12 +52,6 @@ Para instalar os requisitos:
 ```bash
 pip install -r requirements.txt
 ```
-
-## Clonar o repositório
-```bash
-git clone https://github.com/Joao-H-Luz/Corrida-de-Startups.git
-```
-cd nome-do-repositorio
 
 ## Executar o programa
 ```bash

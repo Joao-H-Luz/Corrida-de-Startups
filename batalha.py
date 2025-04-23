@@ -2,7 +2,6 @@ import pandas as pd
 import random
 import menus_dic
 import os
-import time
 startups = []
 fase_batalha = []
 vencedores = []
